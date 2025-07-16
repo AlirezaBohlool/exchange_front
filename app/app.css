@@ -1,0 +1,20 @@
+@import url("/fonts/morabba-font.css");
+@import "tailwindcss";
+
+
+:root {
+  --main-color: #00d890;
+  --main-color-dark: #009e6a;
+  --font-morabba: 'Morabba';
+}
+
+html,
+body {
+  direction: rtl;
+  font-family: var(--font-morabba);
+  @apply bg-white;
+  @apply text-gray-900;
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+}
