@@ -6,18 +6,36 @@ import {
   Star,
   ShoppingCart,
   ArrowLeftRight,
+  User2,
+  User2Icon,
 } from "lucide-react";
 
 export default function Dashboard() {
+  // Get user name from localStorage (parse user object)
+  let userName = '';
+  if (typeof window !== 'undefined') {
+    try {
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+        const userObj = JSON.parse(userStr);
+        userName = userObj.user_name || '';
+      }
+    } catch (e) {
+      userName = '';
+    }
+  }
   return (
     <div className="p-4  md:p-6 lg:p-10 bg-white text-gray-800 min-h-screen font-morabba">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-        <button className="bg-[var(--main-color)] text-white py-2 px-4 rounded-xl font-bold">
-          احراز هویت
-        </button>
-        <div className="text-sm text-gray-600 select-none">
-          کیف پول: <span className="text-gray-900 font-bold">۰ تومان</span>
+        <div className="bg-[var(--main-color)] text-white py-2 px-4 rounded-xl font-bold flex items-center gap-2">
+          <span className="text-lg"><User/></span>
+          <span>{userName || 'کاربر'}</span>
+        </div>
+        <div className="flex flex-col md:flex-row md:items-center gap-2 text-sm text-gray-600 select-none">
+          <span>
+            کیف پول: <span className="text-gray-900 font-bold">۰ تومان</span>
+          </span>
         </div>
       </div>
 

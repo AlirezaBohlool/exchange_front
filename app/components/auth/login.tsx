@@ -15,7 +15,7 @@ export default function Login() {
     setLoading(true);
     try {
       if (!email || !password) {
-        showSnackbar("ایمیل و رمز عبور الزامی است.", "error");
+        showSnackbar("وارد کردن ایمیل و رمز عبور الزامی است.", "error");
         setLoading(false);
         return;
       }
@@ -23,8 +23,11 @@ export default function Login() {
         user_email: email,
         user_password: password,
       });
-      // If backend returns user object, you can store it in localStorage or context if needed
-      showSnackbar(response?.data?.message || "ورود موفقیت‌آمیز بود!", "success");
+      // Save user info in localStorage
+      if (response?.data?.user) {
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+      }
+      showSnackbar("ورود با موفقیت انجام شد!", "success");
       setTimeout(() => navigate("/dashboard"), 1000);
     } catch (err: any) {
       // Handle backend error messages
@@ -32,7 +35,7 @@ export default function Login() {
       if (err?.response?.data?.message) {
         msg = err.response.data.message;
       } else if (err?.message) {
-        msg = err.message;
+        msg = "خطا: " + err.message;
       }
       showSnackbar(msg, "error");
     } finally {
