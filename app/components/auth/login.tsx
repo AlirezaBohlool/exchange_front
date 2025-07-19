@@ -14,14 +14,27 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      await post("auth/login", {
+      if (!email || !password) {
+        showSnackbar("ایمیل و رمز عبور الزامی است.", "error");
+        setLoading(false);
+        return;
+      }
+      const response = await post("auth/login", {
         user_email: email,
         user_password: password,
       });
-      showSnackbar("ورود موفقیت‌آمیز بود!", "success");
+      // If backend returns user object, you can store it in localStorage or context if needed
+      showSnackbar(response?.data?.message || "ورود موفقیت‌آمیز بود!", "success");
       setTimeout(() => navigate("/dashboard"), 1000);
     } catch (err: any) {
-      showSnackbar(err?.response?.data?.message || "خطا در ورود. لطفا دوباره تلاش کنید.", "error");
+      // Handle backend error messages
+      let msg = "خطا در ورود. لطفا دوباره تلاش کنید.";
+      if (err?.response?.data?.message) {
+        msg = err.response.data.message;
+      } else if (err?.message) {
+        msg = err.message;
+      }
+      showSnackbar(msg, "error");
     } finally {
       setLoading(false);
     }

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { post } from '../../services/api';
+import { useSnackbar } from '../common/Snackbar';
 
-export default function Register() {
+const Register: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,12 +11,14 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     if (password !== confirmPassword) {
       setError("رمز عبور و تکرار آن یکسان نیست.");
+      showSnackbar("رمز عبور و تکرار آن یکسان نیست.", "error");
       return;
     }
     setLoading(true);
@@ -25,9 +28,12 @@ export default function Register() {
         user_email: email,
         user_password: password,
       });
-      navigate("/login");
+      showSnackbar("ثبت‌نام با موفقیت انجام شد!", "success");
+      setTimeout(() => navigate("/login"), 1000);
     } catch (err: any) {
-      setError(err?.response?.data?.message || "خطا در ثبت‌نام. لطفا دوباره تلاش کنید.");
+      const msg = err?.response?.data?.message || "خطا در ثبت‌نام. لطفا دوباره تلاش کنید.";
+      setError(msg);
+      showSnackbar(msg, "error");
     } finally {
       setLoading(false);
     }
@@ -112,4 +118,6 @@ export default function Register() {
       </div>
     </div>
   );
-}
+};
+
+export default Register;
