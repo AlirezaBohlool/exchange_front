@@ -5,8 +5,14 @@ export default [
   route("login", "routes/login.tsx"),
   route("register", "routes/register.tsx"),
   route("dashboard", "routes/dashboard.tsx", {}, [
-    index("routes/dashboard/index.tsx"), // /dashboard
-    route("profile", "routes/dashboard/profile.tsx"), // /dashboard/profile
-    route("settings", "routes/dashboard/settings.tsx"), // /dashboard/settings
+    index("routes/dashboard/index.tsx"), 
+    route("profile", "routes/dashboard/profile.tsx"), 
+    route("settings", "routes/dashboard/settings.tsx"), 
+    route("buy", "routes/dashboard/buy.tsx"), 
+    route("sell", "routes/dashboard/sell.tsx"), 
+    route("withdraw-requests", "routes/dashboard/withdrawalRequests.tsx"), 
+    route("wallet", "routes/dashboard/wallet.tsx"), 
+    route("banks", "routes/dashboard/bankAccounts.tsx"), 
   ]),
 ] satisfies RouteConfig;
+ 

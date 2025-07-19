@@ -7,7 +7,7 @@ export default function HomeTopMain() {
                 <div className="max-w-7xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between px-4 gap-8">
                     {/* Text Content */}
                     <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-right">
-                        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-gray-800">صرافی بهلول</h1>
+                        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-gray-800">صرافی آلتربیت</h1>
                         <p className="mb-2 text-lg text-gray-700">
                             تنها کافیست ثبت سفارش خود را ثبت کنید تا بلافاصله ارز دیجیتال خود را دریافت نمایید. روی دکمه ورود و عضویت کلیک کنید.
                         </p>

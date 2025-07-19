@@ -10,13 +10,13 @@ import {
 
 export default function Dashboard() {
   return (
-    <div className="p-4 md:p-6 lg:p-10 bg-white text-gray-800 min-h-screen font-morabba">
+    <div className="p-4  md:p-6 lg:p-10 bg-white text-gray-800 min-h-screen font-morabba">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
         <button className="bg-[var(--main-color)] text-white py-2 px-4 rounded-xl font-bold">
           احراز هویت
         </button>
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-gray-600 select-none">
           کیف پول: <span className="text-gray-900 font-bold">۰ تومان</span>
         </div>
       </div>
@@ -62,10 +62,10 @@ export default function Dashboard() {
             <br /> فروش به ما: <span className="text-gray-900 font-bold">۸۸,۰۰۰ تومان</span>
           </div>
           <div className="flex flex-col md:flex-row justify-center gap-4">
-            <button className="bg-[var(--main-color)] text-white py-2 px-6 rounded-xl font-semibold hover:bg-[var(--main-color-dark)]">
+            <button className="cursor-pointer bg-[var(--main-color)] text-white py-2 px-6 rounded-xl font-semibold hover:bg-[var(--main-color-dark)]">
               خرید تتر
             </button>
-            <button className="bg-red-500 text-white py-2 px-6 rounded-xl font-semibold hover:bg-red-600">
+            <button className="cursor-pointer bg-red-500 text-white py-2 px-6 rounded-xl font-semibold hover:bg-red-600">
               فروش تتر
             </button>
           </div>

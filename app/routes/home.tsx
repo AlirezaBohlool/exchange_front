@@ -3,7 +3,7 @@ import { Home as HomeComponent } from "../components/home/home";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "صرافی بهلول" },
+    { title: "صرافی آلتربیت" },
     { name: "description", content: "Welcome to React Router!" },
   ];
 }
