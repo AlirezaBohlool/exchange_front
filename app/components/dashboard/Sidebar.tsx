@@ -73,7 +73,7 @@ export default function Sidebar() {
           <SidebarItem icon={<ShoppingCart size={18} />} label="فروش ارز" to="/dashboard/sell" active={isActive("/dashboard/sell")} />
 
           {/* حسابداری - Only for admin */}
-          {role === 'admin' && (
+          {role === 'user' && (
             <SidebarParent
               label="حسابداری"
               icon={<CreditCard size={18} />}
