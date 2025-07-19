@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { post } from '../../services/api';
+import { useSnackbar } from '../common/Snackbar';
 
 const coins = [
   { label: 'بیت کوین', value: 'bitcoin' },
@@ -20,6 +22,9 @@ export default function Buy() {
   const [amount, setAmount] = useState('');
   const [price, setPrice] = useState('');
   const [lastChanged, setLastChanged] = useState<'amount' | 'price'>('amount');
+  const { showSnackbar } = useSnackbar();
+  // TODO: Replace with actual user id from auth context or props
+  const userId = 1;
 
   // Update price/amount when coin or price changes
   React.useEffect(() => {
@@ -50,11 +55,47 @@ export default function Buy() {
     setLastChanged('price');
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // Validation
+    if (!amount || !price || isNaN(Number(amount)) || isNaN(Number(price.replace(/,/g, '')))) {
+      showSnackbar('لطفاً مقدار و مبلغ معتبر وارد کنید', 'error');
+      return;
+    }
+    try {
+      const res = await post(
+        'dashboard/transactions/buy',
+        {
+          user_id: userId,
+          coin: coins.find(c => c.value === selectedCoin)?.label || selectedCoin,
+          amount: Number(amount),
+          price: Number(price.replace(/,/g, '')),
+          transaction_type: 'buy',
+        }
+      );
+      // Accept any 2xx as success, or if backend returns no error
+      if (res && res.status && res.status >= 200 && res.status < 300) {
+        showSnackbar('خرید با موفقیت انجام شد', 'success');
+        setAmount('');
+        setPrice('');
+      } else {
+        showSnackbar('خرید انجام نشد. لطفاً دوباره تلاش کنید.', 'error');
+      }
+    } catch (err: any) {
+      // Try to show backend error if available
+      if (err?.response?.data?.message) {
+        showSnackbar(err.response.data.message, 'error');
+      } else {
+        showSnackbar('خطا در ارتباط با سرور', 'error');
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-white font-morabba">
       <div className="w-full max-w-lg mx-auto bg-white rounded-2xl shadow p-6 font-morabba">
         <h2 className="text-2xl font-bold mb-6 text-center text-[var(--main-color)]">خرید ارز دیجیتال</h2>
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           {/* Coin Selector */}
           <div>
             <label className="block mb-2 text-gray-700 font-semibold">انتخاب ارز</label>
@@ -63,7 +104,7 @@ export default function Buy() {
                 <button
                   type="button"
                   key={coin.value}
-                  className={`py-2 px-2 rounded-lg font-bold border transition text-sm ${
+                  className={`py-2 px-2 rounded-lg font-bold border transition text-sm cursor-pointer ${
                     selectedCoin === coin.value
                       ? 'bg-[var(--main-color)] text-white border-[var(--main-color)]'
                       : 'bg-white text-gray-800 border-gray-300 hover:border-[var(--main-color)]'
@@ -106,7 +147,7 @@ export default function Buy() {
           {/* Buy Button */}
           <button
             type="submit"
-            className="w-full bg-[var(--main-color)] hover:bg-[var(--main-color-dark)] text-white font-bold py-3 rounded-lg transition text-lg mt-4 font-morabba"
+            className="w-full cursor-pointer bg-[var(--main-color)] hover:bg-[var(--main-color-dark)] text-white font-bold py-3 rounded-lg transition text-lg mt-4 font-morabba"
           >
             خرید {coins.find(c => c.value === selectedCoin)?.label}
           </button>
