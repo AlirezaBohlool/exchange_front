@@ -5,6 +5,7 @@ interface Withdrawal {
   transaction_id: number;
   user_id: number;
   amount: string;
+  to_card?: string;
   coin: string;
   transaction_type: string;
   status: string;
@@ -71,7 +72,8 @@ export default function WithdrawalRequests() {
               <tr>
                 <th className="py-2 px-2 sm:px-4">#</th>
                 <th className="py-2 px-2 sm:px-4">مقدار</th>
-                <th className="py-2 px-2 sm:px-4">توضیحات</th>
+                <th className="py-2 px-2 sm:px-4">شماره کارت</th>
+                {/* <th className="py-2 px-2 sm:px-4">توضیحات</th> */}
                 <th className="py-2 px-2 sm:px-4">تاریخ</th>
                 <th className="py-2 px-2 sm:px-4">وضعیت</th>
               </tr>
@@ -82,7 +84,8 @@ export default function WithdrawalRequests() {
                   {/* Desktop cells */}
                   <td className="py-2 px-2 sm:px-4 text-center hidden sm:table-cell">{idx + 1}</td>
                   <td className="py-2 px-2 sm:px-4 text-center hidden sm:table-cell">{Number(w.amount).toLocaleString()}</td>
-                  <td className="py-2 px-2 sm:px-4 text-center max-w-[120px] truncate hidden sm:table-cell" title={w.description}>{w.description}</td>
+                  <td className="py-2 px-2 sm:px-4 text-center hidden sm:table-cell">{w.to_card || '-'}</td>
+                  {/* <td className="py-2 px-2 sm:px-4 text-center max-w-[120px] truncate hidden sm:table-cell" title={w.description}>{w.description}</td> */}
                   <td className="py-2 px-2 sm:px-4 text-center whitespace-nowrap hidden sm:table-cell">{w.persian_date}</td>
                   <td className="py-2 px-2 sm:px-4 text-center hidden sm:table-cell">
                     <span className={`px-2 py-1 rounded text-xs sm:text-sm font-semibold ${statusColors[w.status] || 'bg-gray-200 text-gray-700'}`}>
@@ -94,6 +97,10 @@ export default function WithdrawalRequests() {
                     <div className="mb-1 flex items-center justify-between">
                       <span className="font-bold">مقدار:</span>
                       <span>{Number(w.amount).toLocaleString()}</span>
+                    </div>
+                    <div className="mb-1 flex items-center justify-between">
+                      <span className="font-bold">شماره کارت:</span>
+                      <span>{w.to_card || '-'}</span>
                     </div>
                     <div className="mb-1 flex items-center justify-between">
                       <span className="font-bold">توضیحات:</span>

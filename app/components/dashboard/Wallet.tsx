@@ -13,6 +13,7 @@ export default function Wallet() {
   const [loading, setLoading] = useState(true);
   const [amount, setAmount] = useState('');
   const [action, setAction] = useState<'deposit' | 'withdraw'>('deposit');
+  const [cardNumber, setCardNumber] = useState('');
   const { showSnackbar } = useSnackbar();
 
   // Get user_id from localStorage
@@ -56,7 +57,10 @@ export default function Wallet() {
     }
     try {
       const route = action === 'deposit' ? '/dashboard/deposit' : '/dashboard/withdraw';
-      const res = await post(route, { user_id: user.user_id, amount: amt });
+      const payload = action === 'withdraw'
+        ? { user_id: user.user_id, amount: amt, to_card: cardNumber }
+        : { user_id: user.user_id, amount: amt };
+      const res = await post(route, payload);
       showSnackbar('عملیات با موفقیت انجام شد', 'success');
       fetchUserInfo(user.user_id); // Refresh balance
       setAmount('');
@@ -125,6 +129,19 @@ export default function Wallet() {
                 onChange={handleAmountChange}
               />
             </div>
+            {action === 'withdraw' && (
+              <div>
+                <label className="block mb-2 text-gray-700 font-semibold">شماره کارت بانکی</label>
+                <input
+                  type="text"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] text-right font-morabba"
+                  placeholder="مثلاً 6037********1234"
+                  value={cardNumber}
+                  onChange={e => setCardNumber(e.target.value.replace(/[^0-9]/g, '').slice(0, 16))}
+                  maxLength={16}
+                />
+              </div>
+            )}
             <button
               type="submit"
               className="w-full cursor-pointer py-3 rounded-lg font-bold text-lg transition bg-[var(--main-color)] text-white hover:bg-[var(--main-color-dark)]"
