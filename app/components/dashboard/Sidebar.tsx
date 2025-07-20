@@ -14,6 +14,8 @@ import {
   LogOut,
   ChevronDown,
   ChevronUp,
+  ArrowLeftRight,
+  ListOrdered,
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -99,16 +101,19 @@ export default function Sidebar() {
 
           {/* سطح کاربری - Only for user */}
           {role === 'user' && (
-            <SidebarItem icon={<Star size={18} />} label="سطح کاربری" to="/dashboard/level" active={isActive("/dashboard/level")} />
+            <SidebarItem icon={<ListOrdered size={18} />} label="سفارش ها " to="/dashboard/level" active={isActive("/dashboard/level")} />
+          )}
+          {role === 'user' && (
+            <SidebarItem icon={<ArrowLeftRight size={18} />} label="تراکنش ها" to="/dashboard/transactions" active={isActive("/dashboard/level")} />
           )}
 
           <SidebarItem icon={<MessageSquare size={18} />} label="تیکت" to="/dashboard/support" active={isActive("/dashboard/support")} />
           {/* پروفایل - For all users */}
-          <SidebarItem icon={<User size={18} />} label="پروفایل" to="/dashboard/profile" active={isActive("/dashboard/profile")} />
+          {/* <SidebarItem icon={<User size={18} />} label="پروفایل" to="/dashboard/profile" active={isActive("/dashboard/profile")} /> */}
           {/* معرفی به دوستان - Only for user */}
-          {role === 'user' && (
+          {/* {role === 'user' && (
             <SidebarItem icon={<Users size={18} />} label="معرفی به دوستان" to="/dashboard/referral" active={isActive("/dashboard/referral")} />
-          )}
+          )} */}
           <SidebarItem icon={<Phone size={18} />} label="تماس با ما" to="/dashboard/contact" active={isActive("/dashboard/contact")} />
           <button
             onClick={() => {

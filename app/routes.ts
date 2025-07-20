@@ -13,6 +13,7 @@ export default [
     route("withdraw-requests", "routes/dashboard/withdrawalRequests.tsx"), 
     route("wallet", "routes/dashboard/wallet.tsx"), 
     route("banks", "routes/dashboard/bankAccounts.tsx"), 
+    route("transactions", "routes/dashboard/transactions.tsx"), 
   ]),
 ] satisfies RouteConfig;
  
