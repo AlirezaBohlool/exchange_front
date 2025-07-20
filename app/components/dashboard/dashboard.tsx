@@ -9,16 +9,19 @@ import {
   User2,
   User2Icon,
 } from "lucide-react";
+import { Link } from "react-router";
 
 export default function Dashboard() {
   // Get user name from localStorage (parse user object)
   let userName = '';
+  let userBalence = '';
   if (typeof window !== 'undefined') {
     try {
       const userStr = localStorage.getItem('user');
       if (userStr) {
         const userObj = JSON.parse(userStr);
         userName = userObj.user_name || '';
+        userBalence = userObj.user_balance || '';
       }
     } catch (e) {
       userName = '';
@@ -34,7 +37,7 @@ export default function Dashboard() {
         </div>
         <div className="flex flex-col md:flex-row md:items-center gap-2 text-sm text-gray-600 select-none">
           <span>
-            کیف پول: <span className="text-gray-900 font-bold">۰ تومان</span>
+            کیف پول: <span className="text-gray-900 font-bold">{userBalence} تومان</span>
           </span>
         </div>
       </div>
@@ -80,12 +83,16 @@ export default function Dashboard() {
             <br /> فروش به ما: <span className="text-gray-900 font-bold">۸۸,۰۰۰ تومان</span>
           </div>
           <div className="flex flex-col md:flex-row justify-center gap-4">
+            <Link to='/dashboard/buy'>
             <button className="cursor-pointer bg-[var(--main-color)] text-white py-2 px-6 rounded-xl font-semibold hover:bg-[var(--main-color-dark)]">
               خرید تتر
             </button>
+            </Link>
+            <Link to='/dashboard/sell'>
             <button className="cursor-pointer bg-red-500 text-white py-2 px-6 rounded-xl font-semibold hover:bg-red-600">
               فروش تتر
             </button>
+            </Link>
           </div>
         </div>
       </div>

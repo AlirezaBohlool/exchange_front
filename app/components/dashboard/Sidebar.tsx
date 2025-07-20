@@ -95,17 +95,17 @@ export default function Sidebar() {
             isOpen={openHistory}
             toggle={() => setOpenHistory(!openHistory)}
           >
-            <SidebarSubItem label="سفارش‌ها" to="/dashboard/orders" />
-            <SidebarSubItem label="تراکنش‌ها" to="/dashboard/transactions" />
+            <SidebarSubItem  label="تراکنش ها" to="/dashboard/transactions"/>
+             {/* <SidebarSubItem  label="سفارش ها " to="/dashboard/level"/> */}
           </SidebarParent>
 
           {/* سطح کاربری - Only for user */}
-          {role === 'user' && (
+          {/* {role === 'user' && (
             <SidebarItem icon={<ListOrdered size={18} />} label="سفارش ها " to="/dashboard/level" active={isActive("/dashboard/level")} />
-          )}
-          {role === 'user' && (
+          )} */}
+          {/* {role === 'user' && (
             <SidebarItem icon={<ArrowLeftRight size={18} />} label="تراکنش ها" to="/dashboard/transactions" active={isActive("/dashboard/level")} />
-          )}
+          )} */}
 
           <SidebarItem icon={<MessageSquare size={18} />} label="تیکت" to="/dashboard/support" active={isActive("/dashboard/support")} />
           {/* پروفایل - For all users */}
