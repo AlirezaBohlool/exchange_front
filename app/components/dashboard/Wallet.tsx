@@ -14,6 +14,10 @@ export default function Wallet() {
   const [amount, setAmount] = useState('');
   const [action, setAction] = useState<'deposit' | 'withdraw'>('deposit');
   const [cardNumber, setCardNumber] = useState('');
+  const [useSavedCard, setUseSavedCard] = useState(false);
+  const [savedCards, setSavedCards] = useState<{ bank_id: number; bank_name: string; bank_number: string; card_holder: string; is_active: number; created_at: string }[]>([]);
+  const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
+  const [cardsLoading, setCardsLoading] = useState(false);
   const { showSnackbar } = useSnackbar();
 
   // Get user_id from localStorage
@@ -24,6 +28,8 @@ export default function Wallet() {
         const userObj = JSON.parse(userStr);
         if (userObj.user_id) {
           fetchUserInfo(userObj.user_id);
+          // Fetch cards for withdraw
+          fetchUserCards(userObj.user_id);
         } else {
           setLoading(false);
         }
@@ -47,6 +53,18 @@ export default function Wallet() {
     }
   };
 
+  const fetchUserCards = async (user_id: number) => {
+    setCardsLoading(true);
+    try {
+      const res = await get(`/dashboard/bank/${user_id}`);
+      setSavedCards(res.data.cards || []);
+    } catch {
+      setSavedCards([]);
+    } finally {
+      setCardsLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
@@ -57,8 +75,13 @@ export default function Wallet() {
     }
     try {
       const route = action === 'deposit' ? '/dashboard/deposit' : '/dashboard/withdraw';
+      let toCardValue = cardNumber;
+      if (action === 'withdraw' && useSavedCard && selectedCardId) {
+        const selected = savedCards.find(c => c.bank_id === selectedCardId);
+        if (selected) toCardValue = selected.bank_number;
+      }
       const payload = action === 'withdraw'
-        ? { user_id: user.user_id, amount: amt, to_card: cardNumber }
+        ? { user_id: user.user_id, amount: amt, to_card: toCardValue }
         : { user_id: user.user_id, amount: amt };
       const res = await post(route, payload);
       showSnackbar('عملیات با موفقیت انجام شد', 'success');
@@ -130,17 +153,52 @@ export default function Wallet() {
               />
             </div>
             {action === 'withdraw' && (
-              <div>
-                <label className="block mb-2 text-gray-700 font-semibold">شماره کارت بانکی</label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] text-right font-morabba"
-                  placeholder="مثلاً 6037********1234"
-                  value={cardNumber}
-                  onChange={e => setCardNumber(e.target.value.replace(/[^0-9]/g, '').slice(0, 16))}
-                  maxLength={16}
-                />
-              </div>
+              <>
+                {savedCards.length > 0 && (
+                  <div className="mb-2 flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="useSavedCard"
+                      checked={useSavedCard}
+                      onChange={e => setUseSavedCard(e.target.checked)}
+                    />
+                    <label htmlFor="useSavedCard" className="text-sm cursor-pointer select-none">انتخاب از کارت‌های من</label>
+                  </div>
+                )}
+                {useSavedCard && savedCards.length > 0 ? (
+                  <div>
+                    <label className="block mb-2 text-gray-700 font-semibold">کارت ثبت شده</label>
+                    {cardsLoading ? (
+                      <div className="text-gray-500 text-sm">در حال بارگذاری کارت‌ها...</div>
+                    ) : (
+                      <select
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] text-right font-morabba"
+                        value={selectedCardId ?? ''}
+                        onChange={e => setSelectedCardId(Number(e.target.value))}
+                      >
+                        <option value="">انتخاب کارت</option>
+                        {savedCards.map(card => (
+                          <option key={card.bank_id} value={card.bank_id}>
+                            {card.bank_number} - {card.bank_name} ({card.card_holder})
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    <label className="block mb-2 text-gray-700 font-semibold">شماره کارت بانکی</label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] text-right font-morabba"
+                      placeholder="مثلاً 6037********1234"
+                      value={cardNumber}
+                      onChange={e => setCardNumber(e.target.value.replace(/[^0-9]/g, '').slice(0, 16))}
+                      maxLength={16}
+                    />
+                  </div>
+                )}
+              </>
             )}
             <button
               type="submit"
