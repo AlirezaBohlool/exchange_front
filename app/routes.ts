@@ -14,6 +14,7 @@ export default [
     route("wallet", "routes/dashboard/wallet.tsx"), 
     route("banks", "routes/dashboard/bankAccounts.tsx"), 
     route("transactions", "routes/dashboard/transactions.tsx"), 
+    route("support", "routes/dashboard/support.tsx"), 
   ]),
 ] satisfies RouteConfig;
  
