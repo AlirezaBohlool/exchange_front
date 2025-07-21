@@ -3,6 +3,7 @@ import { get, patch } from '../../services/api';
 import { useSnackbar } from '../common/Snackbar';
 
 interface Transaction {
+  user_name: ReactNode;
   transaction_id: number;
   user_id: number;
   amount: number;
@@ -83,7 +84,7 @@ export default function PendingRequests() {
                 <tr key={tx.transaction_id} className="border-b last:border-b-0 hover:bg-gray-50 transition sm:table-row block sm:mb-0 mb-4 rounded-lg sm:rounded-none bg-white sm:bg-transparent shadow-sm sm:shadow-none">
                   {/* Desktop cells */}
                   <td className="py-2 px-2 sm:px-4 text-center hidden sm:table-cell">{idx + 1}</td>
-                  <td className="py-2 px-2 sm:px-4 text-center hidden sm:table-cell">{tx.user_id}</td>
+                  <td className="py-2 px-2 sm:px-4 text-center hidden sm:table-cell">{tx.user_name}</td>
                   <td className="py-2 px-2 sm:px-4 text-center hidden sm:table-cell">
                     <span className={
                       tx.transaction_type === 'deposit'

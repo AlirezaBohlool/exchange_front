@@ -8,6 +8,8 @@ interface UserInfo {
   [key: string]: any;
 }
 
+const walletAddress = 'TTDsmd1pjKd9ufcifx4b2JT97tX4P81XJ7';
+
 export default function Wallet() {
   const [user, setUser] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState(true);
@@ -18,6 +20,8 @@ export default function Wallet() {
   const [savedCards, setSavedCards] = useState<{ bank_id: number; bank_name: string; bank_number: string; card_holder: string; is_active: number; created_at: string }[]>([]);
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
   const [cardsLoading, setCardsLoading] = useState(false);
+  const [showDepositSuccessModal, setShowDepositSuccessModal] = useState(false);
+  const [showWithdrawSuccessModal, setShowWithdrawSuccessModal] = useState(false);
   const { showSnackbar } = useSnackbar();
 
   // Get user_id from localStorage
@@ -74,25 +78,44 @@ export default function Wallet() {
       return;
     }
     try {
-      const route = action === 'deposit' ? '/dashboard/deposit' : '/dashboard/withdraw';
-      let toCardValue = cardNumber;
-      if (action === 'withdraw' && useSavedCard && selectedCardId) {
-        const selected = savedCards.find(c => c.bank_id === selectedCardId);
-        if (selected) toCardValue = selected.bank_number;
+      if (action === 'deposit') {
+        const payload = { user_id: user.user_id, amount: amt };
+        await post('/dashboard/deposit', payload);
+        setShowDepositSuccessModal(true);
+        setAmount('');
+      } else { // action === 'withdraw'
+        let toCardValue = cardNumber;
+        if (useSavedCard && selectedCardId) {
+          const selected = savedCards.find(c => c.bank_id === selectedCardId);
+          if (selected) {
+            toCardValue = selected.bank_number;
+          }
+        }
+        if (!toCardValue) {
+          showSnackbar('لطفاً شماره کارت را وارد یا انتخاب کنید.', 'error');
+          return;
+        }
+
+        const payload = { user_id: user.user_id, amount: amt, to_card: toCardValue };
+        await post('/dashboard/withdraw', payload);
+        setShowWithdrawSuccessModal(true);
+        setAmount('');
+        setCardNumber('');
       }
-      const payload = action === 'withdraw'
-        ? { user_id: user.user_id, amount: amt, to_card: toCardValue }
-        : { user_id: user.user_id, amount: amt };
-      const res = await post(route, payload);
-      showSnackbar('عملیات با موفقیت انجام شد', 'success');
-      fetchUserInfo(user.user_id); // Refresh balance
-      setAmount('');
     } catch (err: any) {
       showSnackbar(
         err?.response?.data?.message || 'خطا در انجام عملیات',
         'error'
       );
     }
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(walletAddress).then(() => {
+        showSnackbar('آدرس کیف پول کپی شد!', 'success');
+    }, () => {
+        showSnackbar('خطا در کپی کردن آدرس', 'error');
+    });
   };
 
   // Helper to format with commas
@@ -210,6 +233,57 @@ export default function Wallet() {
         </>
       ) : (
         <div className="text-center py-8 text-red-500">کاربر یافت نشد.</div>
+      )}
+
+      {showDepositSuccessModal && (
+        <div className="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md text-center font-morabba">
+                <h3 className="text-xl font-bold text-[var(--main-color)] mb-4">درخواست واریز ثبت شد</h3>
+                <p className="text-gray-700 mb-4 text-right leading-relaxed">
+                    درخواست شما با موفقیت ثبت شد و پس از بررسی و انتقال وجه به آدرس کیف پول زیر، کیف پول شما شارژ خواهد شد.
+                </p>
+                <div className="bg-gray-100 p-3 rounded-lg flex items-center justify-between gap-4 mb-4">
+                    <button 
+                        onClick={handleCopy}
+                        className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded text-xs transition whitespace-nowrap"
+                    >
+                        کپی
+                    </button>
+                    <span className="text-sm font-mono break-all text-left">
+                        {walletAddress}
+                    </span>
+                </div>
+                <button
+                    onClick={() => {
+                        setShowDepositSuccessModal(false);
+                        if(user) fetchUserInfo(user.user_id);
+                    }}
+                    className="w-full bg-main text-white font-semibold cursor-pointer bg-[var(--main-color)] py-2 px-4 rounded-lg hover:bg-main-dark transition"
+                >
+                    بازگشت
+                </button>
+            </div>
+        </div>
+      )}
+
+      {showWithdrawSuccessModal && (
+        <div className="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md text-center font-morabba">
+                <h3 className="text-xl font-bold text-[var(--main-color)] mb-4">درخواست برداشت ثبت شد</h3>
+                <p className="text-gray-700 mb-4 text-right leading-relaxed">
+                    درخواست شما ثبت شد و پس از بررسی رد سیکل های پرداختی انتقال داده می شود .
+                </p>
+                <button
+                    onClick={() => {
+                        setShowWithdrawSuccessModal(false);
+                        if(user) fetchUserInfo(user.user_id);
+                    }}
+                    className="w-full bg-main text-white font-semibold cursor-pointer bg-[var(--main-color)] py-2 px-4 rounded-lg hover:bg-main-dark transition"
+                >
+                    بازگشت
+                </button>
+            </div>
+        </div>
       )}
     </div>
   );
