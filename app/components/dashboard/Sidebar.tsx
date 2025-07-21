@@ -16,12 +16,14 @@ import {
   ChevronUp,
   ArrowLeftRight,
   ListOrdered,
+  ShieldUser,
 } from "lucide-react";
 
 export default function Sidebar() {
   const location = useLocation();
   const [openAccounting, setOpenAccounting] = useState(false);
   const [openHistory, setOpenHistory] = useState(false);
+  const [openManagement, setOpenManagement] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Get role from localStorage (default to 'user' if not set)
@@ -73,7 +75,6 @@ export default function Sidebar() {
           <SidebarItem icon={<Home size={18} />} label="پیشخوان" to="/dashboard" active={isActive("/dashboard")} />
           <SidebarItem icon={<ShoppingCart size={18} />} label="خرید ارز" to="/dashboard/buy" active={isActive("/dashboard/buy")} />
           <SidebarItem icon={<ShoppingCart size={18} />} label="فروش ارز" to="/dashboard/sell" active={isActive("/dashboard/sell")} />
-
           {/* حسابداری - Only for admin */}
           {role === 'user' && (
             <SidebarParent
@@ -96,25 +97,18 @@ export default function Sidebar() {
             toggle={() => setOpenHistory(!openHistory)}
           >
             <SidebarSubItem  label="تراکنش ها" to="/dashboard/transactions"/>
-             {/* <SidebarSubItem  label="سفارش ها " to="/dashboard/level"/> */}
           </SidebarParent>
-
-          {/* سطح کاربری - Only for user */}
-          {/* {role === 'user' && (
-            <SidebarItem icon={<ListOrdered size={18} />} label="سفارش ها " to="/dashboard/level" active={isActive("/dashboard/level")} />
-          )} */}
-          {/* {role === 'user' && (
-            <SidebarItem icon={<ArrowLeftRight size={18} />} label="تراکنش ها" to="/dashboard/transactions" active={isActive("/dashboard/level")} />
-          )} */}
-
           <SidebarItem icon={<MessageSquare size={18} />} label="تیکت" to="/dashboard/support" active={isActive("/dashboard/support")} />
-          {/* پروفایل - For all users */}
-          {/* <SidebarItem icon={<User size={18} />} label="پروفایل" to="/dashboard/profile" active={isActive("/dashboard/profile")} /> */}
-          {/* معرفی به دوستان - Only for user */}
-          {/* {role === 'user' && (
-            <SidebarItem icon={<Users size={18} />} label="معرفی به دوستان" to="/dashboard/referral" active={isActive("/dashboard/referral")} />
-          )} */}
-          <SidebarItem icon={<Phone size={18} />} label="تماس با ما" to="/dashboard/contact" active={isActive("/dashboard/contact")} />
+          {role === 'user' && (
+            <SidebarParent
+              label="مدیریت"
+              icon={<ShieldUser size={18} />}
+              isOpen={openManagement}
+              toggle={() => setOpenManagement(!openManagement)}
+            >
+              <SidebarSubItem label="واریز و برداشت" to="/dashboard/pending-requests" />
+            </SidebarParent>
+          )}
           <button
             onClick={() => {
               localStorage.removeItem('user');

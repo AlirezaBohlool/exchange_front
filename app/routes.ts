@@ -15,6 +15,7 @@ export default [
     route("banks", "routes/dashboard/bankAccounts.tsx"), 
     route("transactions", "routes/dashboard/transactions.tsx"), 
     route("support", "routes/dashboard/support.tsx"), 
+    route("pending-requests", "routes/dashboard/pendingRequests.tsx"), 
   ]),
 ] satisfies RouteConfig;
  

@@ -13,7 +13,7 @@ const api = axios.create({
 // Generic request helpers
 export const get = (url: string, config = {}) => api.get(url, config);
 export const post = (url: string, data: any, config = {}) => api.post(url, data, config);
-export const put = (url: string, data: any, config = {}) => api.put(url, data, config);
+export const patch = (url: string, data: any, config = {}) => api.patch(url, data, config);
 export const del = (url: string, config = {}) => api.delete(url, config);
 
 export default api;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router";
 
 const menuItems = [
@@ -13,6 +13,16 @@ const menuItems = [
 ];
 
 export default function HomeMenu() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Check for user data in local storage to determine login status
+    const user = localStorage.getItem("user");
+    if (user) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   return (
     <nav className="w-full bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
@@ -31,14 +41,23 @@ export default function HomeMenu() {
           ))}
         </div>
         <div className="hidden md:block">
-
-           <Link to="/login"
-            className="text-white px-4 py-2 rounded transition font-medium mt-2 hover:bg-[var(--main-color-dark)]"
-            style={{ backgroundColor: "var(--main-color)" }}
-          >
-      
-            ورود به پنل
-          </Link>
+          {isLoggedIn ? (
+            <Link
+              to="/dashboard"
+              className="text-white px-4 py-2 rounded transition font-medium mt-2 hover:bg-[var(--main-color-dark)]"
+              style={{ backgroundColor: "var(--main-color)" }}
+            >
+              داشبورد
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="text-white px-4 py-2 rounded transition font-medium mt-2 hover:bg-[var(--main-color-dark)]"
+              style={{ backgroundColor: "var(--main-color)" }}
+            >
+              ورود به پنل
+            </Link>
+          )}
         </div>
         {/* Mobile menu button */}
         <div className="md:hidden flex items-center">
@@ -69,13 +88,23 @@ export default function HomeMenu() {
               {item.label}
             </a>
           ))}
-          <Link to="/login"
-            className="text-white px-4 py-2 rounded transition font-medium mt-2 hover:bg-[var(--main-color-dark)]"
-            style={{ backgroundColor: "var(--main-color)" }}
-          >
-      
-            ورود به پنل
-          </Link>
+          {isLoggedIn ? (
+            <Link
+              to="/dashboard"
+              className="text-white px-4 py-2 rounded transition font-medium mt-2 hover:bg-[var(--main-color-dark)]"
+              style={{ backgroundColor: "var(--main-color)" }}
+            >
+              داشبورد
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="text-white px-4 py-2 rounded transition font-medium mt-2 hover:bg-[var(--main-color-dark)]"
+              style={{ backgroundColor: "var(--main-color)" }}
+            >
+              ورود به پنل
+            </Link>
+          )}
         </div>
       </div>
     </nav>
