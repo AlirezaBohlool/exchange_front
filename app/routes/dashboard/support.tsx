@@ -1,4 +1,4 @@
-import Support from "../../components/dashboard/support";
+import Support from "~/components/dashboard/Support";
 
 export default function SupportPage() {
     return <Support />;
