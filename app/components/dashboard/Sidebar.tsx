@@ -99,7 +99,7 @@ export default function Sidebar() {
             <SidebarSubItem  label="تراکنش ها" to="/dashboard/transactions"/>
           </SidebarParent>
           <SidebarItem icon={<MessageSquare size={18} />} label="تیکت" to="/dashboard/support" active={isActive("/dashboard/support")} />
-          {role === 'user' && (
+          {role === 'admin' && (
             <SidebarParent
               label="مدیریت"
               icon={<ShieldUser size={18} />}
