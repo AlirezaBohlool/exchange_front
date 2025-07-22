@@ -27,7 +27,16 @@ export default function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Get role from localStorage (default to 'user' if not set)
-  const role = typeof window !== 'undefined' ? localStorage.getItem('role') || 'user' : 'user';
+  const role = typeof window !== 'undefined'
+  ? (() => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        return user.user_role || 'user';
+      } catch {
+        return 'user';
+      }
+    })()
+  : 'user';
 
   const isActive = (path: string) => location.pathname === path;
 
