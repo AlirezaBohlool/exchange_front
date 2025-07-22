@@ -84,7 +84,6 @@ export default function Sidebar() {
           <SidebarItem icon={<ShoppingCart size={18} />} label="خرید ارز" to="/dashboard/buy" active={isActive("/dashboard/buy")} />
           <SidebarItem icon={<ShoppingCart size={18} />} label="فروش ارز" to="/dashboard/sell" active={isActive("/dashboard/sell")} />
           {/* حسابداری - Only for admin */}
-          {role === 'user' || role === 'admin' && (
             <SidebarParent
               label="حسابداری"
               icon={<CreditCard size={18} />}
@@ -95,8 +94,6 @@ export default function Sidebar() {
               <SidebarSubItem label="کیف پول" to="/dashboard/wallet" />
               <SidebarSubItem label="حساب های بانکی" to="/dashboard/banks" />
             </SidebarParent>
-          )}
-
           {/* تاریخچه - For all users */}
           <SidebarParent
             label="تاریخچه"
