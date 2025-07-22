@@ -28,7 +28,7 @@ export default function Sidebar() {
 
   // Get role from localStorage (default to 'user' if not set)
   const role = typeof window !== 'undefined'
-  ? (() => {
+    ? (() => {
       try {
         const user = JSON.parse(localStorage.getItem('user') || '{}');
         return user.user_role || 'user';
@@ -36,7 +36,7 @@ export default function Sidebar() {
         return 'user';
       }
     })()
-  : 'user';
+    : 'user';
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -64,9 +64,8 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 right-0 z-50 h-full w-64 bg-white text-gray-800 p-4 font-morabba text-sm border-l border-gray-200 transform transition-transform duration-300 md:static md:translate-x-0 md:w-60 md:min-h-screen ${
-          sidebarOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'
-        }`}
+        className={`fixed top-0 right-0 z-50 h-full w-64 bg-white text-gray-800 p-4 font-morabba text-sm border-l border-gray-200 transform transition-transform duration-300 md:static md:translate-x-0 md:w-60 md:min-h-screen ${sidebarOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'
+          }`}
         style={{ maxWidth: '100vw' }}
       >
         {/* Close button for mobile */}
@@ -85,7 +84,7 @@ export default function Sidebar() {
           <SidebarItem icon={<ShoppingCart size={18} />} label="خرید ارز" to="/dashboard/buy" active={isActive("/dashboard/buy")} />
           <SidebarItem icon={<ShoppingCart size={18} />} label="فروش ارز" to="/dashboard/sell" active={isActive("/dashboard/sell")} />
           {/* حسابداری - Only for admin */}
-          {role === 'user' && (
+          {role === 'user' || role === 'admin' && (
             <SidebarParent
               label="حسابداری"
               icon={<CreditCard size={18} />}
@@ -93,7 +92,7 @@ export default function Sidebar() {
               toggle={() => setOpenAccounting(!openAccounting)}
             >
               <SidebarSubItem label="درخواست های برداشت" to="/dashboard/withdraw-requests" />
-              <SidebarSubItem  label="کیف پول" to="/dashboard/wallet" />
+              <SidebarSubItem label="کیف پول" to="/dashboard/wallet" />
               <SidebarSubItem label="حساب های بانکی" to="/dashboard/banks" />
             </SidebarParent>
           )}
@@ -105,7 +104,7 @@ export default function Sidebar() {
             isOpen={openHistory}
             toggle={() => setOpenHistory(!openHistory)}
           >
-            <SidebarSubItem  label="تراکنش ها" to="/dashboard/transactions"/>
+            <SidebarSubItem label="تراکنش ها" to="/dashboard/transactions" />
           </SidebarParent>
           <SidebarItem icon={<MessageSquare size={18} />} label="تیکت" to="/dashboard/support" active={isActive("/dashboard/support")} />
           {role === 'admin' && (
@@ -150,9 +149,8 @@ function SidebarItem({
   return (
     <Link
       to={to}
-      className={`flex select-none cursor-pointer items-center justify-between gap-2 px-4 py-2 rounded-lg transition text-right ${
-        active ? "bg-[var(--main-color)] text-white" : "hover:bg-[var(--main-color)/10] text-gray-800"
-      }`}
+      className={`flex select-none cursor-pointer items-center justify-between gap-2 px-4 py-2 rounded-lg transition text-right ${active ? "bg-[var(--main-color)] text-white" : "hover:bg-[var(--main-color)/10] text-gray-800"
+        }`}
     >
       <div className="flex items-center gap-2 rtl:justify-end">
         {icon}
@@ -204,11 +202,10 @@ function SidebarSubItem({
   return (
     <Link
       to={to}
-      className={`block select-none py-1 px-3 rounded-md text-sm text-right cursor-pointer ${
-        active
+      className={`block select-none py-1 px-3 rounded-md text-sm text-right cursor-pointer ${active
           ? "bg-[var(--main-color)] text-white"
           : "text-gray-700 hover:bg-[var(--main-color)/10]"
-      }`}
+        }`}
     >
       {label}
     </Link>
