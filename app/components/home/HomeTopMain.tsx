@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 export default function HomeTopMain() {
     return (
@@ -11,12 +12,12 @@ export default function HomeTopMain() {
                         <p className="mb-2 text-lg text-gray-700">
                             تنها کافیست ثبت سفارش خود را ثبت کنید تا بلافاصله ارز دیجیتال خود را دریافت نمایید. روی دکمه ورود و عضویت کلیک کنید.
                         </p>
-                        <a
-                            href="/panel"
+                        <Link
                             className="block w-full md:w-auto bg-[var(--main-color)] text-white text-lg font-semibold rounded-xl py-3 px-8 mt-6 mb-2 hover:bg-[var(--main-color-dark)] transition text-center"
-                        >
+
+                            to="/login">
                             ورود و عضویت
-                        </a>
+                        </Link>
                         <p className="mt-2 text-gray-500 text-sm">
                             خرید و فروش آنی و اتوماتیک تتر و ترون بدون احراز هویت پیچیده (۱ دقیقه) و تسویه آنی
                         </p>
@@ -46,7 +47,7 @@ export default function HomeTopMain() {
                     {/* Text Content */}
                     <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-right">
                         <p className="mb-2 text-lg text-gray-700">
-                            تنها کافیست ثبت سفارش خود را ثبت کنید تا بلافاصله ارز دیجیتال خود را دریافت نمایید. روی دکمه ورود و عضویت کلیک کنید.
+                            تنها کافیست سفارش خود را ثبت کنید تا بلافاصله ارز دیجیتال خود را دریافت نمایید. روی دکمه ورود و عضویت کلیک کنید.
                         </p>
                     </div>
                 </div>
