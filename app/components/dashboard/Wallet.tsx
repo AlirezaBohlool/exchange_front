@@ -112,17 +112,17 @@ export default function Wallet() {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(walletAddress).then(() => {
-        showSnackbar('آدرس کیف پول کپی شد!', 'success');
+      showSnackbar('آدرس کیف پول کپی شد!', 'success');
     }, () => {
-        showSnackbar('خطا در کپی کردن آدرس', 'error');
+      showSnackbar('خطا در کپی کردن آدرس', 'error');
     });
   };
 
   // Helper to format with commas
-  const formatWithCommas = (value: string) => {
-    const num = value.replace(/,/g, '');
-    if (!num) return '';
-    return Number(num).toLocaleString();
+  const formatWithCommas = (value: string | number) => {
+    const num = typeof value === 'string' ? value.replace(/,/g, '') : value;
+    if (!num || isNaN(Number(num))) return '';
+    return Number(num).toLocaleString('en-US'); // you can change 'en-US' if needed
   };
 
   // Handle input change with formatting
@@ -167,13 +167,17 @@ export default function Wallet() {
               <input
                 type="text"
                 inputMode="numeric"
-                min="0"
-                step="any"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] text-right font-morabba"
+                className="..."
                 placeholder="مثلاً 500"
-                value={formatWithCommas(amount)}
+                value={amount}
                 onChange={handleAmountChange}
               />
+
+              {amount && (
+                <div className="text-sm text-gray-500 text-right mt-1">
+                  مبلغ وارد شده: {formatWithCommas(amount)} تومان
+                </div>
+              )}
             </div>
             {action === 'withdraw' && (
               <>
@@ -237,52 +241,52 @@ export default function Wallet() {
 
       {showDepositSuccessModal && (
         <div className="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md text-center font-morabba">
-                <h3 className="text-xl font-bold text-[var(--main-color)] mb-4">درخواست واریز ثبت شد</h3>
-                <p className="text-gray-700 mb-4 text-right leading-relaxed">
-                    درخواست شما با موفقیت ثبت شد و پس از بررسی و انتقال وجه به آدرس کیف پول زیر، کیف پول شما شارژ خواهد شد.
-                </p>
-                <div className="bg-gray-100 p-3 rounded-lg flex items-center justify-between gap-4 mb-4">
-                    <button 
-                        onClick={handleCopy}
-                        className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded text-xs transition whitespace-nowrap"
-                    >
-                        کپی
-                    </button>
-                    <span className="text-sm font-mono break-all text-left">
-                        {walletAddress}
-                    </span>
-                </div>
-                <button
-                    onClick={() => {
-                        setShowDepositSuccessModal(false);
-                        if(user) fetchUserInfo(user.user_id);
-                    }}
-                    className="w-full bg-main text-white font-semibold cursor-pointer bg-[var(--main-color)] py-2 px-4 rounded-lg hover:bg-main-dark transition"
-                >
-                    بازگشت
-                </button>
+          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md text-center font-morabba">
+            <h3 className="text-xl font-bold text-[var(--main-color)] mb-4">درخواست واریز ثبت شد</h3>
+            <p className="text-gray-700 mb-4 text-right leading-relaxed">
+              درخواست شما با موفقیت ثبت شد و پس از بررسی و انتقال وجه به آدرس کیف پول زیر، کیف پول شما شارژ خواهد شد.
+            </p>
+            <div className="bg-gray-100 p-3 rounded-lg flex items-center justify-between gap-4 mb-4">
+              <button
+                onClick={handleCopy}
+                className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded text-xs transition whitespace-nowrap"
+              >
+                کپی
+              </button>
+              <span className="text-sm font-mono break-all text-left">
+                {walletAddress}
+              </span>
             </div>
+            <button
+              onClick={() => {
+                setShowDepositSuccessModal(false);
+                if (user) fetchUserInfo(user.user_id);
+              }}
+              className="w-full bg-main text-white font-semibold cursor-pointer bg-[var(--main-color)] py-2 px-4 rounded-lg hover:bg-main-dark transition"
+            >
+              بازگشت
+            </button>
+          </div>
         </div>
       )}
 
       {showWithdrawSuccessModal && (
         <div className="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md text-center font-morabba">
-                <h3 className="text-xl font-bold text-[var(--main-color)] mb-4">درخواست برداشت ثبت شد</h3>
-                <p className="text-gray-700 mb-4 text-right leading-relaxed">
-                    درخواست شما ثبت شد و پس از بررسی رد سیکل های پرداختی انتقال داده می شود .
-                </p>
-                <button
-                    onClick={() => {
-                        setShowWithdrawSuccessModal(false);
-                        if(user) fetchUserInfo(user.user_id);
-                    }}
-                    className="w-full bg-main text-white font-semibold cursor-pointer bg-[var(--main-color)] py-2 px-4 rounded-lg hover:bg-main-dark transition"
-                >
-                    بازگشت
-                </button>
-            </div>
+          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md text-center font-morabba">
+            <h3 className="text-xl font-bold text-[var(--main-color)] mb-4">درخواست برداشت ثبت شد</h3>
+            <p className="text-gray-700 mb-4 text-right leading-relaxed">
+              درخواست شما ثبت شد و پس از بررسی رد سیکل های پرداختی انتقال داده می شود .
+            </p>
+            <button
+              onClick={() => {
+                setShowWithdrawSuccessModal(false);
+                if (user) fetchUserInfo(user.user_id);
+              }}
+              className="w-full bg-main text-white font-semibold cursor-pointer bg-[var(--main-color)] py-2 px-4 rounded-lg hover:bg-main-dark transition"
+            >
+              بازگشت
+            </button>
+          </div>
         </div>
       )}
     </div>
