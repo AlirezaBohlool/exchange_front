@@ -167,14 +167,14 @@ export default function Wallet() {
               <input
                 type="text"
                 inputMode="numeric"
-                className="..."
-                placeholder="مثلاً 500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] text-right font-morabba placeholder:text-gray-400"
+                placeholder="مثلاً ۵۰۰"
                 value={amount}
                 onChange={handleAmountChange}
               />
 
               {amount && (
-                <div className="text-sm text-gray-500 text-right mt-1">
+                <div className="text-sm text-gray-500 text-right mt-1 font-morabba">
                   مبلغ وارد شده: {formatWithCommas(amount)} تومان
                 </div>
               )}
