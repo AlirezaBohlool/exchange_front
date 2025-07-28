@@ -106,7 +106,7 @@ export default function PendingRequests() {
                   <td className="block sm:hidden p-3 text-right align-top" colSpan={7}>
                     <div className="mb-2 flex items-center justify-between">
                       <span className="font-bold">کاربر:</span>
-                      <span>{tx.user_id}</span>
+                      <span>{tx.user_name}</span>
                     </div>
                     <div className="mb-2 flex items-center justify-between">
                       <span className="font-bold">نوع:</span>

@@ -281,7 +281,7 @@ export default function Sidebar() {
       >
         {/* Close button for mobile */}
         <div className="flex justify-between items-center md:hidden mb-4">
-          <h1 className="text-2xl font-bold">آلتربیت</h1>
+          <h1 className="font-extrabold text-3xl">آلتربیت</h1>
           <button onClick={() => setSidebarOpen(false)} aria-label="Close sidebar">
             <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -289,7 +289,7 @@ export default function Sidebar() {
           </button>
         </div>
         {/* Desktop title */}
-        <h1 className="w-full justify-center pt-4 pb-4 text-4xl cursor-pointer select-none hidden md:flex">آلتربیت</h1>
+        <h1 className="w-full justify-center font-extrabold pt-4 pb-4 text-3xl cursor-pointer select-none hidden md:flex">آلتربیت</h1>
         <div className="space-y-2 rtl:space-y-reverse">
           <SidebarItem icon={<Home size={18} />} label="پیشخوان" to="/dashboard" active={isActive("/dashboard")} onClose={() => setSidebarOpen(false)} />
           <SidebarItem icon={<ShoppingCart size={18} />} label="خرید ارز" to="/dashboard/buy" active={isActive("/dashboard/buy")} onClose={() => setSidebarOpen(false)} />
