@@ -249,10 +249,10 @@ export default function SupportTicketDetail() {
         <div className="mb-6 lg:mb-8">
           <button
             onClick={() => navigate("/dashboard/support/tickets/")}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 lg:mb-6 transition-colors duration-200 p-2 -mr-2 rounded-lg hover:bg-gray-100"
+            className="flex justify-end w-full items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 lg:mb-6 transition-colors duration-200 p-2 -mr-2 rounded-lg cursor-pointer"
           >
+            <span className=" sm:inline">بازگشت به لیست تیکت‌ها</span> 
             <ArrowLeft size={20} />
-            <span className="hidden sm:inline">بازگشت به لیست تیکت‌ها</span>
           </button>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -287,7 +287,7 @@ export default function SupportTicketDetail() {
             </div>
 
             {/* Ticket Controls */}
-            <div className="space-y-4">
+            <div className="hidden lg:block space-y-4">
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
                 <h3 className="font-semibold text-gray-900 mb-3">وضعیت تیکت</h3>
                 <div className="space-y-2">
@@ -318,7 +318,7 @@ export default function SupportTicketDetail() {
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> 
 
                {/* <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
                 <h3 className="font-semibold text-gray-900 mb-3">اولویت</h3>

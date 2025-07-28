@@ -159,10 +159,10 @@ export default function TicketDetail() {
                 <div className="mb-6 lg:mb-8">
                     <button
                         onClick={() => navigate("/dashboard/tickets")}
-                        className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 lg:mb-6 transition-colors duration-200 p-2 -mr-2 rounded-lg hover:bg-gray-100"
+                        className="flex justify-end  w-full cursor-pointer items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 lg:mb-6 transition-colors duration-200 p-2 -mr-2 rounded-lg "
                     >
+                        <span className=" sm:inline">بازگشت به لیست تیکت‌ها</span>
                         <ArrowLeft size={20} />
-                        <span className="hidden sm:inline">بازگشت به لیست تیکت‌ها</span>
                     </button>
 
                     <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">

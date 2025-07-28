@@ -40,10 +40,8 @@ export default function SupportTicketList() {
   const fetchAllTickets = async () => {
     setLoading(true)
     try {
-      console.log("Fetching all tickets for support team")
       // API endpoint صحیح برای دریافت همه تیکت‌ها
       const response = await get("/dashboard/tickets")
-      console.log("Support API Response:", response)
 
       let ticketData: SupportTicket[] = []
       if (Array.isArray(response.data)) {
@@ -69,7 +67,6 @@ export default function SupportTicketList() {
       })
 
       setTickets(ticketData)
-      console.log("Processed support ticket data:", ticketData)
     } catch (error) {
       console.error("Error fetching support tickets:", error)
       showSnackbar("خطا در دریافت لیست تیکت‌ها", "error")
@@ -178,7 +175,6 @@ export default function SupportTicketList() {
   })
 
   const handleTicketClick = (ticketId: number) => {
-    console.log("Support navigating to ticket:", ticketId)
     navigate(`/dashboard/support/tickets/${ticketId}`)
   }
 
