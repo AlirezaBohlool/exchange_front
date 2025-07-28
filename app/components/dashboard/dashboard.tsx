@@ -9,7 +9,7 @@ import {
   User2,
   User2Icon,
 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, Links } from "react-router";
 
 export default function Dashboard() {
   // Get user name from localStorage (parse user object)
@@ -69,13 +69,15 @@ export default function Dashboard() {
         <div className="bg-gray-100 rounded-2xl p-6 text-center">
           <div className="text-sm text-gray-500 mb-4">ارز را انتخاب کنید</div>
           <div className="flex flex-wrap justify-center gap-3 mb-4">
-            {["تتر", "ترون", "ترون", "نات کوین", "داگر"].map((coin, i) => (
+            {[ "ترون"].map((coin, i) => (
+              <Link to='/dashboard/buy' key={i}>
               <button
                 key={i}
-                className="bg-white text-gray-800 border border-gray-300 rounded-xl py-2 px-4 min-w-[60px] hover:border-[var(--main-color)]"
+                className="bg-white cursor-pointer text-gray-800 border border-gray-300 rounded-xl py-2 px-4 min-w-[60px] hover:border-[var(--main-color)]"
               >
                 {coin}
               </button>
+              </Link>
             ))}
           </div>
           <div className="text-sm text-gray-600 mb-4">

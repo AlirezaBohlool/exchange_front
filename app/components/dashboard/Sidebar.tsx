@@ -214,20 +214,14 @@ import { Link, useLocation } from "react-router";
 import {
   Home,
   ShoppingCart,
-  Wallet,
   CreditCard,
   Calendar,
-  Star,
   MessageSquare,
-  User,
-  Users,
-  Phone,
   LogOut,
   ChevronDown,
   ChevronUp,
-  ArrowLeftRight,
-  ListOrdered,
   ShieldUser,
+  WrapText,
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -256,14 +250,17 @@ export default function Sidebar() {
     <>
       {/* Mobile menu button */}
       <button
-        className="fixed top-4 right-4 z-50 bg-gray-200  rounded-lg p-2 md:hidden"
+        className="absolute top-4 right-4 z-50 p-3 rounded-full border-2 text-[--main-color-dark] border-[var(--main-color)] bg-gray-100 
+             hover:bg-[var(--main-color)] hover:text-white 
+             transition duration-300 ease-in-out transform hover:scale-105 active:scale-95 shadow-lg 
+             md:hidden animate-fade-slide"
         onClick={() => setSidebarOpen(true)}
         aria-label="Open sidebar"
       >
-        <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
+        <WrapText className="w-5 h-5" />
       </button>
+
+
 
       {/* Overlay for mobile */}
       {sidebarOpen && (
@@ -295,16 +292,16 @@ export default function Sidebar() {
           <SidebarItem icon={<ShoppingCart size={18} />} label="خرید ارز" to="/dashboard/buy" active={isActive("/dashboard/buy")} onClose={() => setSidebarOpen(false)} />
           <SidebarItem icon={<ShoppingCart size={18} />} label="فروش ارز" to="/dashboard/sell" active={isActive("/dashboard/sell")} onClose={() => setSidebarOpen(false)} />
           {/* حسابداری - Only for admin */}
-            <SidebarParent
-              label="حسابداری"
-              icon={<CreditCard size={18} />}
-              isOpen={openAccounting}
-              toggle={() => setOpenAccounting(!openAccounting)}
-            >
-              <SidebarSubItem label="درخواست های برداشت" to="/dashboard/withdraw-requests" onClose={() => setSidebarOpen(false)} />
-              <SidebarSubItem label="کیف پول" to="/dashboard/wallet" onClose={() => setSidebarOpen(false)} />
-              <SidebarSubItem label="حساب های بانکی" to="/dashboard/banks" onClose={() => setSidebarOpen(false)} />
-            </SidebarParent>
+          <SidebarParent
+            label="حسابداری"
+            icon={<CreditCard size={18} />}
+            isOpen={openAccounting}
+            toggle={() => setOpenAccounting(!openAccounting)}
+          >
+            <SidebarSubItem label="درخواست های برداشت" to="/dashboard/withdraw-requests" onClose={() => setSidebarOpen(false)} />
+            <SidebarSubItem label="کیف پول" to="/dashboard/wallet" onClose={() => setSidebarOpen(false)} />
+            <SidebarSubItem label="حساب های بانکی" to="/dashboard/banks" onClose={() => setSidebarOpen(false)} />
+          </SidebarParent>
           {/* تاریخچه - For all users */}
           <SidebarParent
             label="تاریخچه"
@@ -418,8 +415,8 @@ function SidebarSubItem({
       to={to}
       onClick={onClose}
       className={`block select-none py-1 px-3 rounded-md text-sm text-right cursor-pointer ${active
-          ? "bg-[var(--main-color)] text-white"
-          : "text-gray-700 hover:bg-[var(--main-color)/10]"
+        ? "bg-[var(--main-color)] text-white"
+        : "text-gray-700 hover:bg-[var(--main-color)/10]"
         }`}
     >
       {label}

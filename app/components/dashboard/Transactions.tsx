@@ -98,8 +98,8 @@ export default function Transactions() {
                   <td className="py-2 px-2 sm:px-4 text-center max-w-[120px] truncate hidden sm:table-cell" title={tx.description}>{tx.description}</td>
                   <td className="py-2 px-2 sm:px-4 text-center whitespace-nowrap hidden sm:table-cell">{tx.persian_date}</td>
                   <td className="py-2 px-2 sm:px-4 text-center hidden sm:table-cell">
-                    <span className={`px-2 py-1 rounded text-xs sm:text-sm font-semibold ${statusColors[tx.status] || 'bg-gray-200 text-gray-700'}`}>
-                      {tx.status === 'pending' ? 'در انتظار' : tx.status === 'success' ? 'موفق' : 'ناموفق'}
+                    <span className={`px-2 py-1 rounded text-xs sm:text-sm font-semibold ${statusColors[tx.status] || 'bg-[var(--main-color)] text-gray-100'}`}>
+                      {tx.status === 'pending' ? 'در انتظار' : tx.status === 'approved' ? 'موفق' : 'ناموفق'}
                     </span>
                   </td>
                   {/* Mobile stacked view */}
@@ -128,9 +128,9 @@ export default function Transactions() {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="font-bold">وضعیت:</span>
-                      <span className={`px-2 py-1 rounded text-xs font-semibold ${statusColors[tx.status] || 'bg-gray-200 text-gray-700'}`}>
-                        {tx.status === 'pending' ? 'در انتظار' : tx.status === 'success' ? 'موفق' : 'ناموفق'}
-                      </span>
+                      <span className={`px-2 py-1 rounded text-xs sm:text-sm font-semibold ${statusColors[tx.status] || 'bg-[var(--main-color)] text-gray-100'}`}>
+                      {tx.status === 'pending' ? 'در انتظار' : tx.status === 'approved' ? 'موفق' : 'ناموفق'}
+                    </span>
                     </div>
                   </td>
                 </tr>
@@ -138,7 +138,7 @@ export default function Transactions() {
             </tbody>
           </table>
         </div>
-      )}
+      )}  
     </div>
   );
 }
