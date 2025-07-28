@@ -103,7 +103,7 @@ export default function Sidebar() {
           >
             <SidebarSubItem label="تراکنش ها" to="/dashboard/transactions" />
           </SidebarParent>
-          <SidebarItem icon={<MessageSquare size={18} />} label="تیکت" to="/dashboard/support" active={isActive("/dashboard/support")} />
+          <SidebarItem icon={<MessageSquare size={18} />} label="تیکت" to="/dashboard/tickets" active={isActive("/dashboard/support")} />
           {role === 'admin' && (
             <SidebarParent
               label="مدیریت"
@@ -112,6 +112,7 @@ export default function Sidebar() {
               toggle={() => setOpenManagement(!openManagement)}
             >
               <SidebarSubItem label="واریز و برداشت" to="/dashboard/pending-requests" />
+              <SidebarSubItem label="تیکت ها " to="/dashboard/support/tickets" />
             </SidebarParent>
           )}
           <button

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { get, patch } from '../../services/api';
-import { useSnackbar } from '../common/Snackbar';
+import React, { useEffect, useState, type ReactNode } from 'react';
+import { get, patch } from '~/services/api';
+import { useSnackbar } from '~/components/common/Snackbar';
 
 interface Transaction {
   user_name: ReactNode;
