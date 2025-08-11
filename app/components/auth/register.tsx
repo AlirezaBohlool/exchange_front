@@ -52,7 +52,7 @@ const Register: React.FC = () => {
               type="text"
               id="name"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-main"
-              placeholder="مثلا علیرضا بهلول"
+              placeholder="نام و نام خانوادگی"
               required
               value={name}
               onChange={e => setName(e.target.value)}
